@@ -47,7 +47,7 @@ public class TLOC {
                         isComment = true;
 
                         // If comment line closes in the same line then next line isn't a comment
-                        if (line.contains("*/") && (line.indexOf("*/")>line.indexOf("/*")){
+                        if (line.contains("*/") && (line.indexOf("*/")>line.indexOf("/*"))){
                             isComment = false;
                         }
 
