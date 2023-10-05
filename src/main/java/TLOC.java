@@ -2,6 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+// This code doesn't work if the java file being read uses an indicator of comment as a string
+// For example, if the file uses a String s = "/*"; the code will not work properly
+
 public class TLOC {
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -17,26 +20,55 @@ public class TLOC {
 
     public static int calculateTLOC(String fileName) {
         int tloc = 0;
-            //BufferReader nous permet de lire ligne par ligne le contenu du fichier
+
+        // Read the lines of the file one by one
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
+            Boolean isComment = false;
 
-            while ((line = br.readLine()) != null) {
-                // Ignore les lignes vides et ne incremente pas tloc.
-                if (line.trim().isEmpty()) {
-                    continue; //continue a la prochaine ligne du fichier
+            // Read next line and trim the empty spaces in the indentation
+            while ((line = br.readLine().trim()) != null) {
+
+                if (!isComment) {
+
+                    // Ignore empty lines and comment lines that start with "//"
+                    if (line.isEmpty() || line.startsWith("//")) {
+                        continue;
+                    }
+
+                    // Check if line contains start of comment "/*"
+                    if (line.contains("/*")) {
+
+                        // Count current line if comment doesn't start at the beginning of line
+                        if (!line.startsWith("/*")) {
+                            tloc++;
+                        }
+
+                        isComment = true;
+
+                        // If comment line closes in the same line then next line isn't a comment
+                        if (line.contains("*/") && (line.indexOf("*/")>line.indexOf("/*")){
+                            isComment = false;
+                        }
+
+                        continue;
+                    }
+
+                    tloc++;
+
+                } else {
+                    if (line.endsWith("*/")){ // End of comment -> next line isn't comment
+                        isComment = false;
+                    }
                 }
 
-                // line.trim().startsWith regarde si la ligne commence avec '//' ou '/*' , si c'est le cas c'est une ligne de commentaire donc on saute
-                // a la prochaine ligne sans incrementer tloc.  
-                if (line.trim().startsWith("//") || line.trim().startsWith("/*")) {
-                    continue; //continue a la prochaine ligne du fichier
-                }
-                //incremente tloc si c'est une ligne de code (pas commentaire ou vide)
+                // Increment counter
                 tloc++;
             }
+
         } catch (IOException e) {
-            //probleme de lecture du ficher
+
+            // Problem with reading file
             System.err.println("Erreur lors de la lecture du fichier : " + e.getMessage());
             System.exit(1);
         }
