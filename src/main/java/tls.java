@@ -57,8 +57,9 @@ public class tls {
 
                     // Write info from hashmap to .csv file
                     fileWriter.write(dict.get("relativePath") + "," + dict.get("package") + ","
-                            +  dict.get("className") + "," + dict.get("tloc") + "," +  dict.get("tassert") + ","
-                            + dict.get("tcmp") + "\n");
+                            + dict.get("className") + "," + Integer.toString((Integer) dict.get("tloc")) + ","
+                            + Integer.toString((Integer) dict.get("tassert"))  + ","
+                            + Float.toString((Float) dict.get("tcmp")) + "\n");
                 }
 
                 fileWriter.close();
@@ -94,8 +95,9 @@ public class tls {
 
                     // Write info from hashmap to .csv file
                     fileWriter.write(dict.get("relativePath") + "," + dict.get("package") + ","
-                            +  dict.get("className") + "," + dict.get("tloc") + "," +  dict.get("tassert") + ","
-                            + dict.get("tcmp") + "\n");
+                            + dict.get("className") + "," + Integer.toString((Integer) dict.get("tloc")) + ","
+                            + Integer.toString((Integer) dict.get("tassert"))  + ","
+                            + Float.toString((Float) dict.get("tcmp")) + "\n");
                 }
 
                 fileWriter.close();
