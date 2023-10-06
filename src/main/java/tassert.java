@@ -8,7 +8,7 @@ public class tassert {
     public static void main(String[] args) {
         //si le nombre d'argument est plus qu'un (exit)
         if (args.length != 1) {
-            System.err.println("Usage: java TASSERTCounter <nom du fichier source>");
+            System.err.println("Usage: java tassert <nom du fichier source>");
             System.exit(1);
         }
 

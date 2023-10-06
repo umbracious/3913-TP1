@@ -8,7 +8,7 @@ import java.io.IOException;
 public class tloc {
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.err.println("java TLOC <nom du fichier source>");
+            System.err.println("java tloc <nom du fichier source>");
             System.exit(1);
         }
 
