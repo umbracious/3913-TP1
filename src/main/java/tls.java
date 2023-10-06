@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 public class tls {
 
@@ -21,27 +22,13 @@ public class tls {
             List<File> testFiles = findTestFiles(directory);
 
             for (File file: testFiles){
-                // Get relative path
-                String filePath = file.getAbsolutePath();
-                String relativePath = getRelativePath(path,filePath);
 
-                // Get package and class name
-                Class fileClass = file.getClass();
-                String pkg = fileClass.getPackageName();
-                String className = fileClass.getSimpleName();
-
-                // Get tloc
-                int tlocVal = tloc.calculateTLOC(file.getPath());
-
-                // Get tassert
-                int tassertVal = tassert.calculateTASSERT(file.getPath());
-
-                // Get tcmp
-                float tcmp = tlocVal / tassertVal;
+                // Get HashMap containing all relevant info for the file
+                HashMap dict = getInfo(file, path);
 
                 // Print everything to command line
-
-                System.out.println(relativePath + " " + pkg + " " +  className+ " " + tlocVal + " " +  tassertVal + " " + tcmp);
+                System.out.println(dict.get("relativePath") + " " + dict.get("package") + " " +  dict.get("className")
+                        + " " + dict.get("tloc") + " " +  dict.get("tassert") + " " + dict.get("tcmp"));
             }
         }
 
@@ -56,6 +43,17 @@ public class tls {
                 System.exit(1);
             }
 
+            // Find every test file in directory and sub-directories
+            List<File> testFiles = findTestFiles(directory);
+
+            for (File file: testFiles){
+
+                // Get HashMap containing all relevant info for the file
+                HashMap dict = getInfo(file, path);
+
+                // Output to tls.csv
+            }
+
         }
 
         // 3 arguments and first argument is "-o", output to .csv file in specified directory
@@ -68,6 +66,19 @@ public class tls {
                 System.err.println("Incorrect entry directory: java -o (<output-dir>) <entry-dir>");
                 System.exit(1);
             }
+
+            // Find every test file in directory and sub-directories
+            List<File> testFiles = findTestFiles(directory);
+
+            for (File file: testFiles){
+
+                // Get HashMap containing all relevant info for the file
+                HashMap dict = getInfo(file, path);
+
+                // Output to specified file
+
+            }
+
 
         }
 
@@ -115,6 +126,33 @@ public class tls {
         String relativePath = filePath.substring(origin.length());
 
         return relativePath;
+    }
+
+    public static HashMap getInfo(File file, String origin){
+        HashMap dictionary= new HashMap();
+
+        // Get relative path
+        String filePath = file.getAbsolutePath();
+        dictionary.put("relativePath", getRelativePath(origin,filePath));
+
+        // Get package and class name
+        Class fileClass = file.getClass();
+        dictionary.put("package",fileClass.getPackageName());
+        dictionary.put("className",fileClass.getSimpleName());
+
+        // Get tloc
+        int tlocVal = tloc.calculateTLOC(file.getPath());
+        dictionary.put("tloc",tlocVal);
+
+        // Get tassert
+        int tassertVal = tassert.calculateTASSERT(file.getPath());
+        dictionary.put("tassert",tassertVal);
+
+        // Get tcmp
+        float tcmp = tlocVal / tassertVal;
+        dictionary.put("tcmp",tcmp);
+
+        return dictionary;
     }
 
 }
