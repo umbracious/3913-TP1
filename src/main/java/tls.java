@@ -11,6 +11,7 @@ public class tls {
             String path = args[0];
             File directory = new File(path);
 
+            // Invalid directory arguments
             if (!directory.exists() || !directory.isDirectory()){
                 System.err.println("Incorrect directory. Usage: java <entry-dir>");
                 System.exit(1);
@@ -29,7 +30,6 @@ public class tls {
         else if (args.length == 3 && args[0]=="-o"){
             String path = args[2];
             File directory = new File(path);
-
         }
 
         // Invalid argument
@@ -41,9 +41,35 @@ public class tls {
     }
 
     // Find every test java file within the directory and its sub-directories
-    public static List<File> testFiles(File directory){
-        List<File> javaFiles = new ArrayList<>();
-        
+    public static List<File> findTestFiles(File directory){
+        List<File> files = new ArrayList<>();
+
+        testFilesRec(directory,files);
+
+        return files;
+    }
+
+    // Recursive in place function that adds test java files from every sub-directory to the list
+    public static void testFilesRec(File directory, List<File> files){
+
+        File[] dirFiles = directory.listFiles();
+
+        if (files != null){
+            for (File file: dirFiles){
+
+                // If files is a directory, recursive call for all files inside it
+                if (file.isDirectory()){
+                    testFilesRec(file, files);
+                }
+
+                // Adds file to list if it's a .java file with test somewhere in the name
+                else if (file.getName().toLowerCase().endsWith(".java")
+                        && file.getName().toLowerCase().contains("test")){
+                    files.add(file);
+                }
+            }
+        }
+
     }
 
 }
