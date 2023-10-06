@@ -11,9 +11,9 @@ public class tls {
             String path = args[0];
             File directory = new File(path);
 
-            // Invalid directory arguments
+            // Invalid directory argument
             if (!directory.exists() || !directory.isDirectory()){
-                System.err.println("Incorrect directory. Usage: java <entry-dir>");
+                System.err.println("Incorrect directory: java <entry-dir>");
                 System.exit(1);
             }
 
@@ -24,12 +24,25 @@ public class tls {
             String path = args[1];
             File directory = new File(path);
 
+            // Invalid directory argument
+            if (!directory.exists() || !directory.isDirectory()){
+                System.err.println("Incorrect directory: java -o <entry-dir>");
+                System.exit(1);
+            }
+
         }
 
         // 3 arguments and first argument is "-o", output to .csv file in specified directory
         else if (args.length == 3 && args[0]=="-o"){
             String path = args[2];
             File directory = new File(path);
+
+            // Invalid entry directory
+            if (!directory.exists() || !directory.isDirectory()){
+                System.err.println("Incorrect entry directory. java -o (<output-dir>) <entry-dir>");
+                System.exit(1);
+            }
+
         }
 
         // Invalid argument
