@@ -143,7 +143,7 @@ public class tls {
 
                 // Adds file to list if it's a .java file with test somewhere in the name
                 else if (file.getName().toLowerCase().endsWith(".java")
-                        && file.getName().toLowerCase().contains("test")){
+                        && tassert.calculateTASSERT(file.getPath()) > 0){
                     files.add(file);
                 }
             }

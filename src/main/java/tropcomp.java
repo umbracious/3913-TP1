@@ -101,8 +101,7 @@ public class tropcomp {
             Collections.sort(tlocList);
             Collections.sort(tcmpList);
 
-            int tlocListSize = tlocList.size();
-            int tcmpListSize = tcmpList.size();
+            int fileListSize = tlocList.size();
 
             // Output to tls.csv
             try {
@@ -117,11 +116,15 @@ public class tropcomp {
                     int currTASSERT = (int) info.get("tassert");
                     float currTCMP = currTLOC/currTASSERT;
 
-                    float tlocPercentile = (tlocList.indexOf(currTLOC)+1)/tlocListSize;
-                    float tcmpPercentile = (tcmpList.indexOf(currTCMP)+1)/tcmpListSize;
+                    float tlocPercentile = ((tlocList.indexOf(currTLOC)+1)/(float) fileListSize)*100;
+                    float tcmpPercentile = ((tcmpList.indexOf(currTCMP)+1)/(float) fileListSize)*100;
 
                     // If both percentiles exceed the threshold, write the files info to the .csv file
-                    if (tlocPercentile >= (100 - threshold) && tcmpPercentile >= (100 - threshold)){
+
+                    float percentileThreshold = 100 - threshold;
+
+
+                    if (tlocPercentile >= percentileThreshold && tcmpPercentile >= percentileThreshold){
                         // Write info from hashmap to .csv file
                         fileWriter.write(info.get("relativePath") + "," + info.get("package") + ","
                                 + info.get("className") + "," + Integer.toString((Integer) info.get("tloc")) + ","
