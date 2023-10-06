@@ -194,7 +194,7 @@ public class tropcomp {
                     HashMap info = tls.getInfo(file, path);
                     int currTLOC = (int) info.get("tloc");
                     int currTASSERT = (int) info.get("tassert");
-                    float currTCMP = currTLOC/currTASSERT;
+                    float currTCMP = (float) currTLOC/ (float) currTASSERT;
 
                     float tlocPercentile = (tlocList.indexOf(currTLOC)+1)/tlocListSize;
                     float tcmpPercentile = (tcmpList.indexOf(currTCMP)+1)/tcmpListSize;

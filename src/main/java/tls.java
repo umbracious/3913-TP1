@@ -167,7 +167,7 @@ public class tls {
         // Get package and class name
         Class fileClass = file.getClass();
         dictionary.put("package",fileClass.getPackageName());
-        dictionary.put("className",fileClass.getSimpleName());
+        dictionary.put("className",removeExtension(file.getName()));
 
         // Get tloc
         int tlocVal = tloc.calculateTLOC(file.getPath());
@@ -178,12 +178,17 @@ public class tls {
         dictionary.put("tassert",tassertVal);
 
         // Get tcmp
-        float tcmp = tlocVal / tassertVal;
+        float tcmp = (float) tlocVal / (float) tassertVal;
         dictionary.put("tcmp",tcmp);
 
         return dictionary;
     }
 
+    public static String removeExtension(String file){
+        return file.replaceFirst("[.][^.]+$", "");
+    }
+
 }
 
 // Source for CSV Writer: https://springhow.com/java-write-csv/
+// Source for getting Class name: https://stackoverflow.com/questions/23017557/how-to-get-class-name-of-any-java-file
