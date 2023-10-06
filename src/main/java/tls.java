@@ -17,6 +17,32 @@ public class tls {
                 System.exit(1);
             }
 
+            // Find every test file in directory and sub-directories
+            List<File> testFiles = findTestFiles(directory);
+
+            for (File file: testFiles){
+                // Get relative path
+                String filePath = file.getAbsolutePath();
+                String relativePath = getRelativePath(path,filePath);
+
+                // Get package and class name
+                Class fileClass = file.getClass();
+                String pkg = fileClass.getPackageName();
+                String className = fileClass.getSimpleName();
+
+                // Get tloc
+                int tlocVal = tloc.calculateTLOC(file.getPath());
+
+                // Get tassert
+                int tassertVal = tassert.calculateTASSERT(file.getPath());
+
+                // Get tcmp
+                float tcmp = tlocVal / tassertVal;
+
+                // Print everything to command line
+
+                System.out.println(relativePath + " " + pkg + " " +  className+ " " + tlocVal + " " +  tassertVal + " " + tcmp);
+            }
         }
 
         // 2 arguments and first argument is "-o", output to .csv file in same directory
@@ -39,7 +65,7 @@ public class tls {
 
             // Invalid entry directory
             if (!directory.exists() || !directory.isDirectory()){
-                System.err.println("Incorrect entry directory. java -o (<output-dir>) <entry-dir>");
+                System.err.println("Incorrect entry directory: java -o (<output-dir>) <entry-dir>");
                 System.exit(1);
             }
 
@@ -83,6 +109,12 @@ public class tls {
             }
         }
 
+    }
+
+    public static String getRelativePath(String origin, String filePath){
+        String relativePath = filePath.substring(origin.length());
+
+        return relativePath;
     }
 
 }
