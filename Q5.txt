@@ -1,0 +1,17 @@
+L'application tropcomp peut être efficace pour évaluer le code d'un fichier 
+test Java, mais il y a deux grosses erreurs de logique qui font que les 
+résultats ne sont pas parfaites. 
+
+D'abord, l'utilisation de seuil relatif fait en sorte que l'application est 
+moins efficace s'il y a moins de fichier test. Par exemple, avec un seul 
+fichier test, l'application retournera toujour le fichier en question.
+
+Ensuite, se servir de deux seuils fait que si un des seuils n'est pas dépassé,
+le fichier n'est pas marqué comme suspect. Alors, on peut avoir un fichier avec 
+des milliers d'asserts de plus que les autres fichiers, mais qui n'est pas 
+marqué comme suspect puisqu'il y a très peu de commentaire dans le fichier.
+
+Toutefois, dans une condition idéale avec beaucoup de fichiers dans le dossier, 
+on peut être certain que les dossiers ressortis par l'application sont trop 
+compliqués. Essentiellement, l'application vise à minimiser les fausses alarmes 
+à la place d'essayer de ressortir autant de fichiers suspects que possible.
