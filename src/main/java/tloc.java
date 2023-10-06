@@ -27,7 +27,9 @@ public class tloc {
             Boolean isComment = false;
 
             // Read next line and trim the empty spaces in the indentation
-            while ((line = br.readLine().trim()) != null) {
+            while ((line = br.readLine()) != null) {
+
+                line = line.trim();
 
                 if (!isComment) {
 

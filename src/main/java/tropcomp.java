@@ -6,6 +6,7 @@ import java.util.*;
 public class tropcomp {
 
     public static void main (String[] args){
+
         if (args.length==2){
 
             float threshold = Float.parseFloat(args[1]);
@@ -66,7 +67,7 @@ public class tropcomp {
             }
         }
 
-        else if (args.length==3 && args[0]=="-o"){
+        else if (args.length==3 && args[0].equals("-o")){
 
             float threshold = Float.parseFloat(args[2]);
             String path = args[1];
@@ -142,7 +143,7 @@ public class tropcomp {
 
         }
 
-        else if (args.length==4 && args[0] == "-o"){
+        else if (args.length==4 && args[0].equals("-o")){
 
             float threshold = Float.parseFloat(args[3]);
             String path = args[2];
