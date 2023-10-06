@@ -22,8 +22,8 @@ public class tassert {
         int tassert = 0;
 
         //le pattern.compile cherche pour des strings qui commence avec "assert" + des lettres entre A-z et finalment
-        //qui fini avec une parenthese.
-        Pattern assertionPattern = Pattern.compile("(assert[A-Za-z]+\\()");
+        //qui fini avec une parenthese. OU fail() qui est aussi un assert mais ne commenece pas par assert.
+        Pattern assertionPattern = Pattern.compile("(assert[A-Za-z]+\\()|fail\\(\\)");
 
         //lit ligne par ligne tout les lignes du fichier entré en parametre
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
