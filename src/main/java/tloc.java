@@ -5,7 +5,7 @@ import java.io.IOException;
 // This code doesn't work if the java file being read uses an indicator of comment as a string
 // For example, if the file uses a String s = "/*"; the code will not work properly
 
-public class TLOC {
+public class tloc {
     public static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("java TLOC <nom du fichier source>");

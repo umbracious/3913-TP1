@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TASSERT {
+public class tassert {
     public static void main(String[] args) {
         //si le nombre d'argument est plus qu'un (exit)
         if (args.length != 1) {
