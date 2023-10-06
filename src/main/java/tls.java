@@ -1,7 +1,9 @@
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 public class tls {
 
@@ -28,7 +30,7 @@ public class tls {
 
                 // Print everything to command line
                 System.out.println(dict.get("relativePath") + " " + dict.get("package") + " " +  dict.get("className")
-                        + " " + dict.get("tloc") + " " +  dict.get("tassert") + " " + dict.get("tcmp"));
+                        + " " + dict.get("tloc") + " " +  dict.get("tassert") + " " + (dict.get("tcmp")));
             }
         }
 
@@ -46,12 +48,25 @@ public class tls {
             // Find every test file in directory and sub-directories
             List<File> testFiles = findTestFiles(directory);
 
-            for (File file: testFiles){
+            // Output to tls.csv
+            try {
+                FileWriter fileWriter = new FileWriter("tls.csv");
+                for (File file: testFiles) {
+                    // Get HashMap containing all relevant info for the file
+                    HashMap dict = getInfo(file, path);
 
-                // Get HashMap containing all relevant info for the file
-                HashMap dict = getInfo(file, path);
+                    // Write info from hashmap to .csv file
+                    fileWriter.write(dict.get("relativePath") + "," + dict.get("package") + ","
+                            +  dict.get("className") + "," + dict.get("tloc") + "," +  dict.get("tassert") + ","
+                            + dict.get("tcmp") + "\n");
+                }
 
-                // Output to tls.csv
+                fileWriter.close();
+
+            } catch (IOException e) {
+                System.out.println("Invalid output file directory");
+                e.printStackTrace();
+                System.exit(1);
             }
 
         }
@@ -70,13 +85,25 @@ public class tls {
             // Find every test file in directory and sub-directories
             List<File> testFiles = findTestFiles(directory);
 
-            for (File file: testFiles){
+            // Output to specified directory
+            try {
+                FileWriter fileWriter = new FileWriter(args[1]);
+                for (File file: testFiles) {
+                    // Get HashMap containing all relevant info for the file
+                    HashMap dict = getInfo(file, path);
 
-                // Get HashMap containing all relevant info for the file
-                HashMap dict = getInfo(file, path);
+                    // Write info from hashmap to .csv file
+                    fileWriter.write(dict.get("relativePath") + "," + dict.get("package") + ","
+                            +  dict.get("className") + "," + dict.get("tloc") + "," +  dict.get("tassert") + ","
+                            + dict.get("tcmp") + "\n");
+                }
 
-                // Output to specified file
+                fileWriter.close();
 
+            } catch (IOException e) {
+                System.out.println("Invalid output file directory");
+                e.printStackTrace();
+                System.exit(1);
             }
 
 
@@ -156,3 +183,5 @@ public class tls {
     }
 
 }
+
+// Source for CSV Writer: https://springhow.com/java-write-csv/
