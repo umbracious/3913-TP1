@@ -15,3 +15,8 @@ Toutefois, dans une condition idéale avec beaucoup de fichiers dans le dossier,
 on peut être certain que les dossiers ressortis par l'application sont trop 
 compliqués. Essentiellement, l'application vise à minimiser les fausses alarmes 
 à la place d'essayer de ressortir autant de fichiers suspects que possible.
+
+En essayant l'application trompcomp avec un seuil de 1, 5 et 10% sur les codes 
+de test de JFreechart, ça nous ressort aucun fichier test comme étant suspect.
+Il faut augmenter le seuil à environ 15% avant qu'on reçoit un fichier en 
+sortie. Cela est constant avec l'argument ci-dessus sur le double-seuil.
