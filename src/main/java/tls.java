@@ -211,4 +211,4 @@ public class tls {
 
 // Source for CSV Writer: https://springhow.com/java-write-csv/
 // Source for getting Class name: https://stackoverflow.com/questions/23017557/how-to-get-class-name-of-any-java-file
-// 
+// Used chatGPT for help to write getPkgName function because I couldn't figure out the regex
