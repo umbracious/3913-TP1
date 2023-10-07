@@ -35,7 +35,7 @@ public class tls {
         }
 
         // 2 arguments and first argument is "-o", output to .csv file in same directory
-        else if (args.length == 2 && args[0]=="-o"){
+        else if (args.length == 2 && args[0].equals("-o")){
             String path = args[1];
             File directory = new File(path);
 
@@ -73,7 +73,7 @@ public class tls {
         }
 
         // 3 arguments and first argument is "-o", output to .csv file in specified directory
-        else if (args.length == 3 && args[0]=="-o"){
+        else if (args.length == 3 && args[0].equals("-o")){
             String path = args[2];
             File directory = new File(path);
 
