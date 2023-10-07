@@ -1,9 +1,9 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class tls {
 
@@ -165,8 +165,8 @@ public class tls {
         dictionary.put("relativePath", getRelativePath(origin,filePath));
 
         // Get package and class name
-        Class fileClass = file.getClass();
-        dictionary.put("package",fileClass.getPackageName());
+        String pkgName = getPkgName(file);
+        dictionary.put("package", getPkgName(file));
         dictionary.put("className",removeExtension(file.getName()));
 
         // Get tloc
@@ -188,7 +188,27 @@ public class tls {
         return file.replaceFirst("[.][^.]+$", "");
     }
 
+    // Takes a file and returns the package name within a file
+    public static String getPkgName(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            Pattern packagePattern = Pattern.compile("^\\s*package\\s+([^\\s;]+)\\s*;");
+            while ((line = reader.readLine()) != null) {
+                Matcher matcher = packagePattern.matcher(line);
+                if (matcher.find()) {
+                    String packageName = matcher.group(1);
+                    return packageName.replace('/', '.');
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
 }
 
 // Source for CSV Writer: https://springhow.com/java-write-csv/
 // Source for getting Class name: https://stackoverflow.com/questions/23017557/how-to-get-class-name-of-any-java-file
+// 
